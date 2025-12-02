@@ -1,21 +1,40 @@
-# Fly.io config for SmartTrack
-# Replace `app` value with your Fly app name (created by `flyctl launch`)
-app = "REPLACE_WITH_YOUR_APP_NAME"
+# Fly.io configuration for SmartTrack
+# Replace `app` with your actual Fly app name
+
+app = "smarttrack-r5wxvq"
 primary_region = "iad"
 
 [build]
   builder = "docker"
+  dockerfile = "Dockerfile"
 
 [env]
+  NODE_ENV = "production"
   PORT = "8080"
 
 [[services]]
-  internal_port = 8080
   protocol = "tcp"
+  internal_port = 8080
+  processes = ["app"]
+
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 1000
+    soft_limit = 100
 
   [[services.ports]]
-    handlers = ["http"]
     port = 80
+    handlers = ["http"]
+    force_https = true
 
   [[services.ports]]
     port = 443
+    handlers = ["tls", "http"]
+
+[deploy]
+  release_command = "echo 'Release phase'"
+  strategy = "rolling"
+
+[[vm]]
+  memory = "256mb"
+  cpus = 1
