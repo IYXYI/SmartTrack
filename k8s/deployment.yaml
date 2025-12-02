@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smarttrack-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smarttrack
+  template:
+    metadata:
+      labels:
+        app: smarttrack
+    spec:
+      containers:
+        - name: smarttrack
+          image: YOUR_DOCKER_IMAGE:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
