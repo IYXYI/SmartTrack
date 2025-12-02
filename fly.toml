@@ -4,10 +4,6 @@
 app = "smarttrack-r5wxvq"
 primary_region = "iad"
 
-[build]
-  builder = "docker"
-  dockerfile = "Dockerfile"
-
 [env]
   NODE_ENV = "production"
   PORT = "8080"
